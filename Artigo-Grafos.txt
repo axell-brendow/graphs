@@ -1,0 +1,24 @@
+# Algoritmo em Português Estruturado
+
+Para o algoritmo a seguir, os ramos são subdivididos em três conjuntos:
+
+I. Os ramos definitivamente atribuídos à árvore em construção.
+II. Os ramos dos quais o próximo ramo a ser adicionado no conjunto I será selecionado.
+III. Os ramos restantes.
+
+Os nós serão subdivididos em dois conjuntos:
+
+A. Os nós conectados pelos ramos do conjunto I.
+B. Os nós restantes
+
+Começamos a construção escolhendo um nó arbitrário como o único membro do conjunto A, e colocamos todos os ramos que terminam nesse nó no conjunto II. Para iniciar, definimos o conjunto I como vazio. Daqui em diante, realizamos os dois passos seguintes repetidamente:
+
+Passo 1. O menor ramo do conjunto II é removido desse conjunto e é adicionado ao conjunto I. Como resultado, um nó é transferido de B para A.
+Passo 2. Considere os ramos que levam do nó que acabou de ser transferido para A até os nós que ainda estão em B. Se o ramo em consideração é maior que o ramo correspondente no conjunto II, ele é rejeitado. Se ele é menor, ele substitui o ramo correspondente do conjunto II e o último é rejeitado.
+
+Então voltamos ao passo 1 e repetimos o processo até que os conjuntos II e B estejam vazios. Os ramos no conjunto I formam a árvore desejada.
+
+
+# Qual problema o algoritmo resolve ?
+
+O algoritmo resolve o problema de encontrar a menor árvore que contém n nós dados, ou seja, é o problema da árvore geradora mínima.

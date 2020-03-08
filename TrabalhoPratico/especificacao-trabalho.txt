@@ -1,0 +1,62 @@
+Trabalho Prático
+
+
+Data de entrega: 25/11/2019 até às 13:00 pelo SGA
+Valor: 30 pontos (10+20)
+Penalidade por atraso: Valor total do trabalho, ou seja, não se aceita atraso.
+Trabalho individual
+
+
+Descrição
+
+Neste trabalho, você deverá implementar algoritmos em grafos aplicados ao problema de busca de passagens aéreas e controle de voos.
+
+
+
+Especificações do programa
+
+    • O programa deve ser implementado em C, C++ ou Java em IDE instalada nos laboratórios do ICEI
+    • Poderão ser usadas bibliotecas gráficas que estejam instaladas nos laboratórios do ICEI
+    • O ambiente deve ser totalmente gráfico e deverá:
+
+Primeira parte:
+        ◦ Exibir uma janela com o mapa-mundi onde serão localizados os aeroportos.
+        ◦ Ler um arquivo contendo a localização dos aeroportos. A primeira linha contém o número de aeroportos e as seguintes são da forma XXX LAT LONG, onde XXX é a sigla, LAT é um número real contendo a latitude e LONG é um número real contendo a longitude do aeroporto. Exemplo:
+
+3
+GRU -21.62 -45.35
+EZE -36.32 -58.36
+LAX 34.89 -118.83
+
+        ◦ Marcar no mapa a posição dos aeroportos com um círculo, a partir das coordenadas
+        ◦ Ler um arquivo contendo as rotas e preços das passagens (preço de ida é o mesmo da volta).  A primeira linha contém o número de rotas e as seguintes são da forma A1 A2 PREÇO, onde A1 e A2 são siglas e PREÇO é um número inteiro com o preço da passagem. Exemplo:
+
+3
+GRU EZE 200
+EZE  LAX 1000
+LAX GRU 800
+
+        ◦ Desenhar com uma reta no mapa a rota ligando os aeroportos.
+
+Segunda parte – Oferecer menus para as seguintes tarefas:
+
+        ◦ Encontrar o menor caminho entre 2 aeroportos, medido pelas distâncias das rotas.
+        ◦ Encontrar a menor tarifa entre 2 aeroportos.
+        ◦ Encontrar a menor tarifa para uma “viagem ao redor do mundo” visitando cada cidade uma vez.
+        ◦ Encontrar o subconjunto de trechos que permita ir de qualquer origem para qualquer destino com o menor valor total.
+        ◦ Considerando que 2 trechos que se cruzam não podem voar na mesma altitude, proponha uma altura de voo para cada trecho, começando a 10.000 pés e variando de mil em mil. Para economizar combustível, o somatório das altitudes deve ser a mínima possível.
+
+As soluções devem ser mostradas de forma gráfica. Para os problemas de otimização que não possuam solução eficiente, apresentar uma solução por força bruta e uma heurística. Trabalhos de qualidade superior poderão ganhar pontos extras.
+
+
+Documentação
+
+A documentação, em formato ABNT, deve conter:
+
+    a) A descrição do problema, da modelagem utilizada e das técnicas implementadas para a solução.
+    b) As medidas de tempo de execução para diversas exemplos de entradas. 
+    c) Referências bibliográficas.
+
+O que entregar:
+
+Arquivos fontes e documentação no padrão ABNT. Coloque todos os arquivos na raiz de um diretório cujo nome deve ser o número de matrícula de um dos componentes. Comprima o diretório e poste no SGA até a hora especificada para cada parte. O tamanho total dos arquivos não deve ultrapassar 10 Mbytes.

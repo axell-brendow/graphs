@@ -1,0 +1,105 @@
+<!-- Repositório: https://github.com/axell-brendow/ComputerScience/tree/master/Grafos/TrabalhoPratico -->
+<!-- API coordenadas esféricas: https://www.mapcoordinates.net/pt -->
+<!-- Gerar crachás e escudos com estatísticas de repositórios: https://shields.io/ -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sistema de passagens aéreas</title>
+
+    <link rel="icon" href="resources/images/icone-grafo.jpg">
+
+    <link rel="stylesheet" href="resources/css/bootstrap.css">
+    <link rel="stylesheet" href="resources/css/index.css">
+
+    <script src="resources/js/jquery-3.4.1.js"></script>
+    <script src="resources/js/globals.js"></script>
+    <script src="resources/js/grafos.js"></script>
+    <script src="resources/js/algoritmos/dijkstra.js"></script>
+    <script src="resources/js/algoritmos/floyd.js"></script>
+    <script src="resources/js/algoritmos/forcaBrutaHamilton.js"></script>
+    <script src="resources/js/algoritmos/vizinhoMaisProximo.js"></script>
+    <script src="resources/js/arquivos.js"></script>
+    <script src="resources/js/geometria.js"></script>
+    <script src="resources/js/UI.js"></script>
+    <script src="resources/js/motorGrafico.js"></script>
+    <script src="resources/js/index.js"></script>
+</head>
+<body>
+<img id="mapa" src="resources/images/mapa.jpg" alt="Mapa mundi" width="100%">
+
+<canvas id="canvas"></canvas>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Aeroportos <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a>Carregar aeroportos</a></li>
+                        <li><a><input id="input-aeroportos" type="file"></a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Preços <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a>Carregar preços das passagens</a></li>
+                        <li><a><input id="input-precos" type="file"></a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Opções <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <!-- <li class="active"><a>Menor caminho entre 2 aeroportos</a></li> -->
+                        <li id="btn-menor-caminho-2"><a>Menor caminho entre 2 aeroportos</a></li>
+                        <li id="btn-menor-tarifa-2"><a>Menor tarifa entre 2 aeroportos</a></li>
+                        <li id="btn-viagem-ao-redor"><a>Viajar ao redor do mundo</a></li>
+                        <li id="btn-viagem-ao-redor-heuristica"><a>Viajar ao redor do mundo (heurística)</a></li>
+                        <!-- <li role="separator" class="divider"></li> -->
+                        <!-- <li class="dropdown-header">Nav header</li> -->
+                        <li id="btn-qualquer-lugar"><a>De qualquer lugar a qualquer lugar</a></li>
+                        <li id="btn-alturas-de-voo"><a>Checar alturas dos voos</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div><!--/.nav-collapse -->
+
+        <a href="https://desciclopedia.org/wiki/Programa%C3%A7%C3%A3o_Orientada_a_Gambiarras">
+            <img id="certificado-pog" src="https://img.shields.io/badge/POG-CERTIFIED-brightgreen" alt="Certificado POG"
+                 title="Certificado de gambiarras">
+        </a>
+
+        <a href="https://desciclopedia.org/wiki/Programa%C3%A7%C3%A3o_Orientada_a_Gambiarras">
+            <img id="cracha-pog" src="https://images.uncyc.org/pt/5/5f/Pogpowered.gif" alt="Tag POG Powered"
+                 title="Crachá de gambiarras">
+        </a>
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Alternar navegação</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand"
+               href="https://github.com/axell-brendow/ComputerScience/tree/master/Grafos/TrabalhoPratico"
+            >Grafos | Autor: <span class="autor">Axell Brendow</span></a>
+        </div>
+
+    </div>
+</nav>
+</body>
+</html>

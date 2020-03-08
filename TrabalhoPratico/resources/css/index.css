@@ -1,0 +1,74 @@
+#mapa
+{
+    position: absolute;
+    max-height: 92%;
+}
+
+#navbar
+{
+    float: left;
+}
+
+.navbar-fixed-bottom
+{
+    max-height: 10%;
+}
+
+.nav li
+{
+    float: left;
+}
+
+.navbar-header
+{
+    float: right;
+}
+
+canvas
+{
+    position: absolute;
+    width: 100%;
+    max-height: 92%;
+}
+
+.dropdown:hover .dropdown-menu
+{
+    display: block;
+}
+
+.dropdown-menu
+{
+    padding: 1ch;
+}
+
+#certificado-pog /* Largura de 104px */
+{
+    position: absolute;
+    right: 0;
+    bottom: 3em;
+    margin: 1em 1em;
+}
+
+#cracha-pog
+{
+    position: absolute;
+    /* 104px é a largura do certificado POG.
+    1em é a margem que o certificado POG faz com a direita da página.
+    1ch é o espaçamento que vou deixar entre o certificado e o crachá POG */
+    right: calc(104px + 1em + 1ch);
+    bottom: 3em;
+    margin: 1em 0;
+}
+
+.autor
+{
+    text-decoration: underline;
+}
+
+/* @media (max-width: 420px)
+{
+    a.navbar-brand
+    {
+        display: none;
+    }
+} */
