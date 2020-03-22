@@ -1,2 +1,2 @@
 # graphs
-Repository for the discipline of Graphs
+Repository for the discipline: Graphs
