@@ -12,29 +12,24 @@
  * @return {Promise<Caminho[]>} Uma promessa que devolverá o caminho que representa
  * o circuito hamiltoniano encontrado.
  */
-function forcaBrutaHamilton(grafo, delay = 0)
-{
-    vertices.forEach( (vertice) => vertice.resetar() );
+async function forcaBrutaHamilton(grafo, delay = 0) {
+    vertices.forEach(vertice => vertice.resetar());
     const arrayDeVertices = new Array(grafo.length).fill(null).map((v, i) => i);
     const caminho = new Caminho(arrayDeVertices, grafo);
     let melhorCaminho = null;
 
-    return new Promise(
-        (resolve, reject) =>
-        {
-            caminho.permutarVertices(
-                (caminhoPermutado, numPermutacao) =>
-                {
-                    if (caminhoPermutado.existe() &&
-                        (melhorCaminho == null || caminhoPermutado.peso < melhorCaminho.peso))
-                        melhorCaminho = caminhoPermutado;
+    caminho.permutarVertices((caminhoPermutado, numPermutacao) => {
+        if (
+            caminhoPermutado.existe() &&
+            (melhorCaminho == null ||
+                caminhoPermutado.peso < melhorCaminho.peso)
+        )
+            melhorCaminho = caminhoPermutado;
 
-                    return true;
-                }
-            );
+        return true;
+    });
 
-            resolve(melhorCaminho != null && melhorCaminho.podeSerCircuitoCompleto() ?
-                melhorCaminho.adicionar(0) : null);
-        }
-    );
+    return melhorCaminho != null && melhorCaminho.podeSerCircuitoCompleto()
+        ? melhorCaminho.adicionar(0)
+        : null;
 }

@@ -28,20 +28,20 @@ let ESTADO_FINAL = "black";
 
 /**
  * Cria vértices com posições aleatórias no vetor global apenas para teste.
- * 
+ *
  * @param {number} larguraCanvas Largura do contexto de desenho.
  * @param {number} alturaCanvas Altura do contexto de desenho.
  * @param {number} numVertices Número de vértices a serem criados.
  *
  * @return {Vertice[]} Vértices gerados.
  */
-function criarVerticesAleatorios(larguraCanvas, alturaCanvas, numVertices = 8)
-{
-    let cx = 0, cy = 0, raio = VERTICE_RAIO_PADRAO;
+function criarVerticesAleatorios(larguraCanvas, alturaCanvas, numVertices = 8) {
+    let cx = 0,
+        cy = 0,
+        raio = VERTICE_RAIO_PADRAO;
     const vertices = [];
 
-    for (let index = 0; index < numVertices; index++)
-    {
+    for (let index = 0; index < numVertices; index++) {
         cx = Math.random() * larguraCanvas;
         cy = Math.random() * alturaCanvas;
 
@@ -51,45 +51,46 @@ function criarVerticesAleatorios(larguraCanvas, alturaCanvas, numVertices = 8)
         while (cy < raio * 3 || cy > alturaCanvas - raio * 3)
             cy = Math.random() * alturaCanvas;
 
-        vertices.push(new Vertice('' + index, cx, cy));
+        vertices.push(new Vertice("" + index, cx, cy));
     }
 
     return vertices;
 }
 
-function criarArestasAleatorias(numVertices)
-{
+function criarArestasAleatorias(numVertices) {
     const arestas = iniciarArestas(numVertices);
     let randNum = 0.0;
 
-    for (let i = 0; i < numVertices; i++)
-    {
-        for (let j = 0; j < numVertices; j++)
-        {
-            if (i !== j) // Ignora auto loops
-            {
+    for (let i = 0; i < numVertices; i++) {
+        for (let j = 0; j < numVertices; j++) {
+            if (i !== j) {
+                // Ignora auto loops
                 randNum = Math.random();
 
                 // Coloca um peso aleatório nas arestas com 20% de chance
                 if (randNum * 100 < 20)
-                    arestas[i][j].peso = arestas[j][i].peso = parseInt(50 + 1000 * randNum);
+                    arestas[i][j].peso = arestas[j][i].peso = parseInt(
+                        50 + 1000 * randNum
+                    );
             }
         }
 
-        if (i > 0)
-        {
+        if (i > 0) {
             // Cria arestas entre o vértice no índice 0 e todos os outros
-            arestas[0][i].peso = arestas[i][0].peso = parseInt(50 + 1000 * Math.random());
+            arestas[0][i].peso = arestas[i][0].peso = parseInt(
+                50 + 1000 * Math.random()
+            );
             // Cria aresta entre os vértices nos índices (0, 1), (1, 2), (2, 3), ...
-            arestas[i - 1][i].peso = arestas[i][i - 1].peso = parseInt(50 + 1000 * Math.random());
+            arestas[i - 1][i].peso = arestas[i][i - 1].peso = parseInt(
+                50 + 1000 * Math.random()
+            );
         }
     }
 
     return arestas;
 }
 
-class Vertice
-{
+class Vertice {
     /**
      * @param {string} nome Nome do vértice. Esse nome será desenhado no centro
      * do vértice.
@@ -103,10 +104,16 @@ class Vertice
      * @param {number} tamanhoBorda Tamanho da borda do círculo.
      */
     constructor(
-        nome, cx, cy, estado = ESTADO_INICIAL, cor = VERTICE_COR_PADRAO,
-        raio = VERTICE_RAIO_PADRAO, corTexto = VERTICE_COR_TEXTO_PADRAO,
-        corBorda = VERTICE_BORDA_COR_PADRAO, tamanhoBorda = null)
-    {
+        nome,
+        cx,
+        cy,
+        estado = ESTADO_INICIAL,
+        cor = VERTICE_COR_PADRAO,
+        raio = VERTICE_RAIO_PADRAO,
+        corTexto = VERTICE_COR_TEXTO_PADRAO,
+        corBorda = VERTICE_BORDA_COR_PADRAO,
+        tamanhoBorda = null
+    ) {
         this.nome = nome;
         this.nomeDisplay = nome;
         this.cx = Math.floor(cx); // Ajuda na performance arredondar
@@ -117,25 +124,25 @@ class Vertice
         this.corBorda = corBorda;
         this.corTexto = corTexto;
         this.tamanhoBorda = tamanhoBorda;
-        
+
         this.resetar = this.resetar.bind(this);
         this.renderizar = this.renderizar.bind(this);
         this.destacar = this.destacar.bind(this);
     }
 
-    get estado() { return this._estado; }
+    get estado() {
+        return this._estado;
+    }
 
     /**
      * @param {string} estado Estado do vértice (inicial, intermediário, final).
      */
-    set estado(estado)
-    {
+    set estado(estado) {
         this._estado = estado;
         this.cor = estado;
     }
 
-    resetar()
-    {
+    resetar() {
         this.nomeDisplay = this.nome;
         this.estado = ESTADO_INICIAL;
         this.raio = VERTICE_RAIO_PADRAO;
@@ -144,24 +151,26 @@ class Vertice
         this.tamanhoBorda = null;
     }
 
-    renderizar(context)
-    {
-        circulo(context,
+    renderizar(context) {
+        circulo(
+            context,
             this.cx,
             this.cy,
             this.raio,
             this.cor,
             this.corBorda,
-            this.tamanhoBorda);
+            this.tamanhoBorda
+        );
 
         textoCentro(context, this.nomeDisplay, this.cx, this.cy, this.corTexto);
     }
 
-    destacar(nomeDisplay = dictSiglas[this.nome],
-             cor = VERTICE_DESTAQUE_COR_PADRAO,
-             corBorda = VERTICE_BORDA_DESTAQUE_COR_PADRAO,
-             tamanhoBorda = VERTICE_BORDA_DESTAQUE_TAMANHO_PADRAO)
-    {
+    destacar(
+        nomeDisplay = dictSiglas[this.nome],
+        cor = VERTICE_DESTAQUE_COR_PADRAO,
+        corBorda = VERTICE_BORDA_DESTAQUE_COR_PADRAO,
+        tamanhoBorda = VERTICE_BORDA_DESTAQUE_TAMANHO_PADRAO
+    ) {
         const copiaNome = this.nomeDisplay;
         const copiaCor = this.cor;
         const copiaCorBorda = this.corBorda;
@@ -172,21 +181,16 @@ class Vertice
         this.corBorda = corBorda;
         this.tamanhoBorda = tamanhoBorda;
 
-        setTimeout(
-            () =>
-            {
-                this.nomeDisplay = copiaNome;
-                this.cor = copiaCor;
-                this.corBorda = copiaCorBorda;
-                this.tamanhoBorda = copiaTamanhoBorda;
-            },
-            5000
-        );
+        setTimeout(() => {
+            this.nomeDisplay = copiaNome;
+            this.cor = copiaCor;
+            this.corBorda = copiaCorBorda;
+            this.tamanhoBorda = copiaTamanhoBorda;
+        }, 5000);
     }
 }
 
-class Aresta
-{
+class Aresta {
     /**
      * @param {number} indiceVerticeInicial Índice do vértice inicial da aresta no
      * arranjo global de vértices.
@@ -194,10 +198,13 @@ class Aresta
      * arranjo global de vértices.
      */
     constructor(
-        indiceVerticeInicial, indiceVerticeFinal, peso = ARESTA_PESO_PADRAO,
-        cor = ARESTA_COR_PADRAO, corTexto = ARESTA_COR_TEXTO_PADRAO,
-        larguraLinha = ARESTA_LARGURA_PADRAO)
-    {
+        indiceVerticeInicial,
+        indiceVerticeFinal,
+        peso = ARESTA_PESO_PADRAO,
+        cor = ARESTA_COR_PADRAO,
+        corTexto = ARESTA_COR_TEXTO_PADRAO,
+        larguraLinha = ARESTA_LARGURA_PADRAO
+    ) {
         this.indiceVerticeInicial = indiceVerticeInicial;
         this.indiceVerticeFinal = indiceVerticeFinal;
         this.peso = peso;
@@ -211,8 +218,8 @@ class Aresta
         this.renderizar = this.renderizar.bind(this);
         this.definirPosicoes = this.definirPosicoes.bind(this);
 
-        if (this.existe()) // Checa a existência
-        {
+        if (this.existe()) {
+            // Checa a existência
             this.definirPosicoes(verticeInicial, verticeFinal);
         }
     }
@@ -220,13 +227,11 @@ class Aresta
     /**
      * Checa se a aresta já foi iniciada com seus vértices.
      */
-    existe()
-    {
+    existe() {
         return this.verticeInicial && this.verticeFinal;
     }
 
-    clonar()
-    {
+    clonar() {
         return new Aresta(
             this.indiceVerticeInicial,
             this.indiceVerticeFinal,
@@ -237,8 +242,7 @@ class Aresta
         );
     }
 
-    resetarCorELargura()
-    {
+    resetarCorELargura() {
         this.cor = ARESTA_COR_PADRAO;
         this.larguraLinha = ARESTA_LARGURA_PADRAO;
     }
@@ -246,14 +250,13 @@ class Aresta
     /**
      * Define campos internos da aresta com base nos índices do vértices dela
      * no vetor global de vértices.
-     * 
+     *
      * @param {number} indiceVerticeInicial Índice do vértice inicial da aresta
      * no vetor global de vértices.
      * @param {number} indiceVerticeFinal Índice do vértice final da aresta
      * no vetor global de vértices.
      */
-    definirPosicoes(indiceVerticeInicial, indiceVerticeFinal)
-    {
+    definirPosicoes(indiceVerticeInicial, indiceVerticeFinal) {
         this.indiceVerticeInicial = indiceVerticeInicial;
         this.indiceVerticeFinal = indiceVerticeFinal;
         this.verticeInicial = vertices[indiceVerticeInicial];
@@ -268,31 +271,39 @@ class Aresta
         return this;
     }
 
-    renderizar(context)
-    {
-        if (this.existe())
-        {
+    renderizar(context) {
+        if (this.existe()) {
             linhaEm(
-                context, this.inicioX, this.inicioY,
-                this.fimX, this.fimY, this.cor, this.larguraLinha);
-                
+                context,
+                this.inicioX,
+                this.inicioY,
+                this.fimX,
+                this.fimY,
+                this.cor,
+                this.larguraLinha
+            );
+
             textoCentro(
-                context, this.peso, this.centroX, this.centroY,
-                this.corTexto, null, '13pt Arial');
+                context,
+                this.peso,
+                this.centroX,
+                this.centroY,
+                this.corTexto,
+                null,
+                "13pt Arial"
+            );
         }
     }
 }
 
-class Caminho
-{
+class Caminho {
     /**
      * @param {number[]} indicesDosVertices Arranjo com os índices dos vértices do
      * caminho.
      * @param {Aresta[][]} grafo Matriz das arestas do grafo onde o caminho está.
      * @param {number} peso Soma dos pesos das arestas do caminho.
      */
-    constructor(indicesDosVertices, grafo = null, peso = ARESTA_PESO_PADRAO)
-    {
+    constructor(indicesDosVertices, grafo = null, peso = ARESTA_PESO_PADRAO) {
         this.indicesDosVertices = [];
         this.peso = peso;
         this.grafo = grafo;
@@ -304,7 +315,9 @@ class Caminho
         this.adicionar = this.adicionar.bind(this);
         this.recalcularPesos = this.recalcularPesos.bind(this);
         this.permutar2Vertices = this.permutar2Vertices.bind(this);
-        this.permutarVerticesApartirDo = this.permutarVerticesApartirDo.bind(this);
+        this.permutarVerticesApartirDo = this.permutarVerticesApartirDo.bind(
+            this
+        );
         this.permutarVertices = this.permutarVertices.bind(this);
         this.contemVertice = this.contemVertice.bind(this);
         this.obterVertice = this.obterVertice.bind(this);
@@ -317,15 +330,13 @@ class Caminho
         this.normalizarArestas = this.normalizarArestas.bind(this);
         this.caminhar = this.caminhar.bind(this);
 
-        if (indicesDosVertices)
-        {
+        if (indicesDosVertices) {
             this.peso = 0;
-            indicesDosVertices.forEach((indice) => this.adicionar(indice));
+            indicesDosVertices.forEach(indice => this.adicionar(indice));
         }
     }
 
-    numVertices()
-    {
+    numVertices() {
         let tamanho = 0;
 
         if (this.indicesDosVertices) tamanho = this.indicesDosVertices.length;
@@ -336,9 +347,12 @@ class Caminho
     /**
      * Checa se o caminho existe, ou seja, se todas as arestas são válidas.
      */
-    existe()
-    {
-        return !!(this.indicesDosVertices && this.numVertices() > 0 && this.peso != Infinity);
+    existe() {
+        return !!(
+            this.indicesDosVertices &&
+            this.numVertices() > 0 &&
+            this.peso != Infinity
+        );
     }
 
     /**
@@ -349,13 +363,13 @@ class Caminho
      *
      * @returns {Aresta} Aresta entre os vértices.
      */
-    arestaEntre(indice0, indice1)
-    {
-        return this.grafo[this.obterVertice(indice0)][this.obterVertice(indice1)];
+    arestaEntre(indice0, indice1) {
+        return this.grafo[this.obterVertice(indice0)][
+            this.obterVertice(indice1)
+        ];
     }
 
-    adicionar(indiceDoVertice)
-    {
+    adicionar(indiceDoVertice) {
         this.indicesDosVertices.push(indiceDoVertice);
         const tamanho = this.numVertices();
 
@@ -365,13 +379,11 @@ class Caminho
         return this;
     }
 
-    recalcularPesos()
-    {
+    recalcularPesos() {
         this.peso = 0;
         const tamanho = this.numVertices();
 
-        for (let i = 1; i < tamanho; i++)
-        {
+        for (let i = 1; i < tamanho; i++) {
             this.peso += this.arestaEntre(i - 1, i).peso;
         }
     }
@@ -384,19 +396,27 @@ class Caminho
      * @param vertice1 Índice do segundo vértice.
      * @param fator Fator de multiplicação do peso das arestas.
      */
-    percorrerArestasLigadasA(vertice0, vertice1, fator)
-    {
+    percorrerArestasLigadasA(vertice0, vertice1, fator) {
         const vertice0Atual = this.obterVertice(vertice0);
-        const verticeEsq0Atual = ( vertice0 > 0 ? this.obterVertice(vertice0 - 1) : null );
-        const verticeDir0Atual = ( vertice0 < this.grafo.length - 1 ? this.obterVertice(vertice0 + 1) : null );
+        const verticeEsq0Atual =
+            vertice0 > 0 ? this.obterVertice(vertice0 - 1) : null;
+        const verticeDir0Atual =
+            vertice0 < this.grafo.length - 1
+                ? this.obterVertice(vertice0 + 1)
+                : null;
 
         const vertice1Atual = this.obterVertice(vertice1);
-        const verticeEsq1Atual = ( vertice1 > 0 ? this.obterVertice(vertice1 - 1) : null );
-        const verticeDir1Atual = ( vertice1 < this.grafo.length - 1 ? this.obterVertice(vertice1 + 1) : null );
+        const verticeEsq1Atual =
+            vertice1 > 0 ? this.obterVertice(vertice1 - 1) : null;
+        const verticeDir1Atual =
+            vertice1 < this.grafo.length - 1
+                ? this.obterVertice(vertice1 + 1)
+                : null;
 
         const mudarPesoDaAresta = (verticeInicial, verticeFinal, fator) => {
             if (verticeInicial && verticeFinal)
-                this.peso += fator * this.arestaEntre(verticeInicial, verticeFinal).peso;
+                this.peso +=
+                    fator * this.arestaEntre(verticeInicial, verticeFinal).peso;
         };
 
         mudarPesoDaAresta(verticeEsq0Atual, vertice0Atual, fator);
@@ -414,12 +434,13 @@ class Caminho
      *
      * @returns {Caminho}
      */
-    permutar2Vertices(vertice0, vertice1)
-    {
+    permutar2Vertices(vertice0, vertice1) {
         // this.percorrerArestasLigadasA(vertice0, vertice1, -1);
 
-        [ this.indicesDosVertices[vertice0], this.indicesDosVertices[vertice1] ] =
-            [ this.obterVertice(vertice1), this.obterVertice(vertice0) ];
+        [
+            this.indicesDosVertices[vertice0],
+            this.indicesDosVertices[vertice1],
+        ] = [this.obterVertice(vertice1), this.obterVertice(vertice0)];
 
         // this.percorrerArestasLigadasA(vertice0, vertice1, 1);
 
@@ -438,32 +459,37 @@ class Caminho
      * continuar ou não.
      * @param {number} numPermutacao Número identificador da permutação [0, 1, ...].
      */
-    permutarVerticesApartirDo(indice, funcaoDeManipulacao, numPermutacao)
-    {
+    permutarVerticesApartirDo(indice, funcaoDeManipulacao, numPermutacao) {
         let retorno = { continuar: true, numPermutacao };
 
-        if (indice == this.grafo.length - 1)
-        {
+        if (indice == this.grafo.length - 1) {
             this.recalcularPesos();
             retorno.continuar = funcaoDeManipulacao(this, numPermutacao);
             if (retorno.continuar) retorno.numPermutacao++;
-        }
-
-        else
-        {
+        } else {
             // Percorre vértices posteriores ao vértice no índice recebido
-            for (let i = indice + 1; retorno.continuar && i < this.grafo.length; i++)
-            {
-                retorno = this.permutarVerticesApartirDo( // Permuta todos os vértices posteriores
-                    indice + 1, funcaoDeManipulacao, retorno.numPermutacao);
+            for (
+                let i = indice + 1;
+                retorno.continuar && i < this.grafo.length;
+                i++
+            ) {
+                retorno = this.permutarVerticesApartirDo(
+                    // Permuta todos os vértices posteriores
+                    indice + 1,
+                    funcaoDeManipulacao,
+                    retorno.numPermutacao
+                );
 
-                if (retorno.continuar)
-                {
+                if (retorno.continuar) {
                     // Permuta o vértice no índice recebido com um dos seus posteriores
                     this.permutar2Vertices(indice, i);
 
-                    retorno = this.permutarVerticesApartirDo( // Permuta todos os vértices posteriores
-                        indice + 1, funcaoDeManipulacao, retorno.numPermutacao);
+                    retorno = this.permutarVerticesApartirDo(
+                        // Permuta todos os vértices posteriores
+                        indice + 1,
+                        funcaoDeManipulacao,
+                        retorno.numPermutacao
+                    );
 
                     this.permutar2Vertices(indice, i); // Despermuta os vértices
                 }
@@ -485,82 +511,75 @@ class Caminho
      * A função deve retornar um booleano indicando se o processo de permutação deve
      * continuar ou não.
      */
-    permutarVertices(funcaoDeManipulacao)
-    {
+    permutarVertices(funcaoDeManipulacao) {
         this.permutarVerticesApartirDo(0, funcaoDeManipulacao, 0);
 
         return this;
     }
 
-    contemVertice(indiceDoVertice)
-    {
+    contemVertice(indiceDoVertice) {
         return this.indicesDosVertices.indexOf(indiceDoVertice) >= 0;
     }
 
-    clonar()
-    {
-        return new Caminho(clonar(this.indicesDosVertices), this.grafo, this.peso);
+    clonar() {
+        return new Caminho(
+            clonar(this.indicesDosVertices),
+            this.grafo,
+            this.peso
+        );
     }
 
-    obterVertice(indice)
-    {
+    obterVertice(indice) {
         return this.indicesDosVertices[indice];
     }
 
     /**
      * Concatena dois caminhos juntando os seus vértices.
-     * 
+     *
      * @param {Caminho} caminho Caminho que deseja-se concatenar a este.
-     * 
+     *
      * @return {Caminho} Um novo caminho com os vértices deste caminho e,
      * em seguida, os vértices do caminho recebido incluindo o vértice em
      * comum apenas uma vez.
      */
-    concatenarCom(caminho)
-    {
+    concatenarCom(caminho) {
         let novoCaminho = this.clonar();
 
         caminho.indicesDosVertices.forEach(
-            (indiceDoVertice, indiceNoArranjo) =>
-            {
-                if (indiceNoArranjo != 0)
-                {
+            (indiceDoVertice, indiceNoArranjo) => {
+                if (indiceNoArranjo != 0) {
                     novoCaminho.adicionar(indiceDoVertice);
                 }
             }
         );
-        
+
         return novoCaminho;
     }
 
-    destacarVertices()
-    {
-        this.indicesDosVertices.forEach((index) => vertices[index].destacar());
+    destacarVertices() {
+        this.indicesDosVertices.forEach(index => vertices[index].destacar());
     }
 
-    podeSerCircuito()
-    {
+    podeSerCircuito() {
         const tamanho = this.numVertices();
 
         return this.existe() && this.arestaEntre(tamanho - 1, 0).existe();
     }
 
-    podeSerCircuitoCompleto()
-    {
-        return this.podeSerCircuito() && this.numVertices() == this.grafo.length;
+    podeSerCircuitoCompleto() {
+        return (
+            this.podeSerCircuito() && this.numVertices() == this.grafo.length
+        );
     }
 
-    mudarArestas(cor, larguraLinha)
-    {
-        if (this.numVertices() > 0)
-        {
+    mudarArestas(cor, larguraLinha) {
+        if (this.numVertices() > 0) {
             let i = 0;
             // Pega o índice do primeiro vértice do caminho
             let indiceAtual = this.obterVertice(i);
             let proximoIndice, menor, maior;
 
-            for (i = 1; i < this.numVertices(); i++)
-            {
+            for (i = 1; i < this.numVertices(); i++) {
                 // Pega o índice do próximo vértice que se liga ao anterior
                 proximoIndice = this.obterVertice(i);
                 // Descobre o maior e o menor índice. Como o grafo é não direcionado,
@@ -577,94 +596,86 @@ class Caminho
     }
 
     destacarArestas(
-        corAresta = ARESTA_COR_ATIVADA, larguraAresta = ARESTA_LARGURA_ATIVADA)
-    {
+        corAresta = ARESTA_COR_ATIVADA,
+        larguraAresta = ARESTA_LARGURA_ATIVADA
+    ) {
         this.mudarArestas(corAresta, larguraAresta);
         return this;
     }
 
-    normalizarArestas() { this.mudarArestas(ARESTA_COR_PADRAO, ARESTA_LARGURA_PADRAO); }
+    normalizarArestas() {
+        this.mudarArestas(ARESTA_COR_PADRAO, ARESTA_LARGURA_PADRAO);
+    }
 
-    caminhar()
-    {
-        let promessa = new Promise((resolve, reject) => resolve());
-
-        if (this.numVertices() > 0)
-        {
+    async caminhar() {
+        if (this.numVertices() > 0) {
             let i = 0;
             // Pega o índice do primeiro vértice do caminho
             let indiceAtual = this.obterVertice(i);
             let proximoIndice;
-            
-            promessa = new Promise(
-                (resolve, reject) =>
-                {
-                    forComPromise(1, this.numVertices(),
-                        (valorAtual, resolveFor) =>
-                        {
-                            // debugger;
-                            // Pega o índice do próximo vértice que se liga ao anterior
-                            proximoIndice = this.obterVertice(valorAtual);
-        
-                            setas[0].moverPara(
-                                vertices[proximoIndice].cx, vertices[proximoIndice].cy, 1000,
-                                vertices[indiceAtual].cx, vertices[indiceAtual].cy
-                            ).then(
-                                () =>
-                                {
-                                    indiceAtual = proximoIndice;
-                                    resolveFor();
-                                }
-                            );
-                        }
-                    ).then(() => resolve(this));
-                }
-            );
+
+            for (let i = 1; i < this.numVertices(); i++) {
+                // debugger;
+                // Pega o índice do próximo vértice que se liga ao anterior
+                proximoIndice = this.obterVertice(i);
+
+                await setas[0].moverPara(
+                    vertices[proximoIndice].cx,
+                    vertices[proximoIndice].cy,
+                    1000,
+                    vertices[indiceAtual].cx,
+                    vertices[indiceAtual].cy
+                );
+
+                indiceAtual = proximoIndice;
+            }
         }
 
-        return promessa;
+        return this;
     }
 }
 
 /**
  * Desrenderiza todas as arestas do grafo.
- * 
+ *
  * @param {Aresta[]} grafo Matriz de arestas do grafo.
  */
-function desrenderizarArestas(grafo)
-{
-    percorrerMetadeDaMatriz(grafo,
-        (linha, coluna, aresta) => aresta.resetarCorELargura());
+function desrenderizarArestas(grafo) {
+    percorrerMetadeDaMatriz(grafo, (linha, coluna, aresta) =>
+        aresta.resetarCorELargura()
+    );
 }
 
 /**
  * Desrenderiza todas as arestas dos grafos.
  */
-function desrenderizarTodasArestas()
-{
+function desrenderizarTodasArestas() {
     desrenderizarArestas(grafoDistancias);
     desrenderizarArestas(grafoPrecos);
 }
 
 /**
  * Cria uma matriz de arestas vazias para um grafo.
- * 
+ *
  * @param {number} numeroDeVertices Número de vértices do grafo.
  * @param {number} pesoPadrao Peso padrão para as arestas.
  * @param {number} pesoDiagonalPrincipal Peso padrão da diagonal principal.
- * 
+ *
  * @return {Aresta[][]} Uma matriz de arestas.
  */
 function iniciarArestas(
-    numeroDeVertices, pesoPadrao = ARESTA_PESO_PADRAO, pesoDiagonalPrincipal = 0)
-{
+    numeroDeVertices,
+    pesoPadrao = ARESTA_PESO_PADRAO,
+    pesoDiagonalPrincipal = 0
+) {
     const matriz = new Array(numeroDeVertices);
 
-    for (let i = 0; i < numeroDeVertices; i++)
-    {
+    for (let i = 0; i < numeroDeVertices; i++) {
         matriz[i] = new Array(numeroDeVertices)
-            .fill(null).map(
-                (valor, indice) => new Aresta(i, indice, pesoPadrao).definirPosicoes(i, indice));
+            .fill(null)
+            .map((valor, indice) =>
+                new Aresta(i, indice, pesoPadrao).definirPosicoes(i, indice)
+            );
 
         matriz[i][i].peso = pesoDiagonalPrincipal;
     }
@@ -674,21 +685,18 @@ function iniciarArestas(
 
 /**
  * Percorre as posições da matriz do grafo informado.
- * 
+ *
  * @param {Aresta[][]} grafo Matriz do grafo.
  * @param {(linha: number, coluna: number, valor: Aresta) => any} gerenciarCelula
  * Função que receberá a linha, a coluna e o valor da célula para poder manusear.
  */
-function percorrerMatriz(grafo, gerenciarCelula)
-{
+function percorrerMatriz(grafo, gerenciarCelula) {
     let linha;
 
-    for (let i = 0; i < grafo.length; i++)
-    {
+    for (let i = 0; i < grafo.length; i++) {
         linha = grafo[i];
-        
-        for (let j = 0; j < linha.length; j++)
-        {
+
+        for (let j = 0; j < linha.length; j++) {
             gerenciarCelula(i, j, linha[j]);
         }
     }
@@ -697,21 +705,18 @@ function percorrerMatriz(grafo, gerenciarCelula)
 /**
  * Percorre metade da matriz do grafo informado. Ignora toda a parte a cima da
  * diagonal principal da matriz.
- * 
+ *
  * @param {Aresta[][]} grafo Matriz do grafo.
  * @param {(linha: number, coluna: number, valor: Aresta) => any} gerenciarCelula
  * Função que receberá a linha, a coluna e o valor da célula para poder manusear.
  */
-function percorrerMetadeDaMatriz(grafo, gerenciarCelula)
-{
+function percorrerMetadeDaMatriz(grafo, gerenciarCelula) {
     let linha;
 
-    for (let i = 0; i < grafo.length; i++)
-    {
+    for (let i = 0; i < grafo.length; i++) {
         linha = grafo[i];
-        
-        for (let j = 0; j <= i; j++)
-        {
+
+        for (let j = 0; j <= i; j++) {
             gerenciarCelula(i, j, linha[j]);
         }
     }
