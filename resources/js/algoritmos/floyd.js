@@ -7,19 +7,19 @@ let floydCaminhos;
 
 /**
  * Cria uma nova matriz com os caminhos entre os vértices.
- * 
+ *
  * @param {Aresta[][]} grafo Matriz com as arestas do grafo.
- * 
+ *
  * @return {Caminho[][]}
  */
-function criarCaminhos(grafo)
-{
-    return grafo.map(
-        (arestasDoVertice) => arestasDoVertice.map(
-            (aresta) => new Caminho(
-                [aresta.indiceVerticeInicial, aresta.indiceVerticeFinal],
-                grafo
-            )
+function criarCaminhos(grafo) {
+    return grafo.map(arestasDoVertice =>
+        arestasDoVertice.map(
+            aresta =>
+                new Caminho(
+                    [aresta.indiceVerticeInicial, aresta.indiceVerticeFinal],
+                    grafo
+                )
         )
     );
 }
@@ -28,7 +28,7 @@ function criarCaminhos(grafo)
  * Checa se o caminho existente entre inicio e fim pode ser substituído por um
  * caminho melhor que passa por inicio, meio e fim. Onde inicio, meio e fim
  * são os índices dos vértices no grafo.
- * 
+ *
  * @param {Caminho} caminhoSubstituido O último caminho que foi substituído por
  * um mais eficiente no algoritmo.
  * @param {Caminho} caminhoNovo O último caminho que substituiu outro mais
@@ -42,13 +42,18 @@ function criarCaminhos(grafo)
  * pior por outro melhor.
  */
 function nucleoFloyd(
-    caminhoSubstituido, caminhoNovo, caminhos, inicio, meio, fim, delay,
-    ultimoFim)
-{
+    caminhoSubstituido,
+    caminhoNovo,
+    caminhos,
+    inicio,
+    meio,
+    fim,
+    delay,
+    ultimoFim
+) {
     let myDelay = 0;
 
-    if (caminhoSubstituido != null)
-    {
+    if (caminhoSubstituido != null) {
         caminhoSubstituido.normalizarArestas();
         caminhoNovo.normalizarArestas();
         vertices[ultimoFim].resetar();
@@ -58,12 +63,12 @@ function nucleoFloyd(
     let inicioAoMeio = caminhos[inicio][meio].peso;
     let meioAoFim = caminhos[meio][fim].peso;
 
-    if (inicioAoMeio + meioAoFim < atual)
-    {
+    if (inicioAoMeio + meioAoFim < atual) {
         caminhoSubstituido = caminhos[inicio][fim];
 
-        caminhos[inicio][fim] =
-            caminhos[inicio][meio].concatenarCom(caminhos[meio][fim]);
+        caminhos[inicio][fim] = caminhos[inicio][meio].concatenarCom(
+            caminhos[meio][fim]
+        );
 
         caminhoNovo = caminhos[inicio][fim];
 
@@ -72,10 +77,7 @@ function nucleoFloyd(
         vertices[fim].nomeDisplay = "fim";
         vertices[fim].cor = "#404040";
         myDelay = delay;
-    }
-
-    else
-    {
+    } else {
         caminhoSubstituido = null;
         caminhoNovo = null;
     }
@@ -90,14 +92,13 @@ function nucleoFloyd(
 /**
  * Aplica o algoritmo de Floyd Warshall no grafo para descobrir os menores caminhos
  * entre vértices do grafo.
- * 
+ *
  * @param {Aresta[][]} grafo Matriz com as arestas do grafo.
  * @param {number} delay Delay entre as iterações do algoritmo.
- * 
+ *
  * @return {Promise<Caminho[][]>}
  */
-function floydWarshall(grafo, delay = 300)
-{
+async function floydWarshall(grafo, delay = 300) {
     /** @type {Caminho} */
     let caminhoSubstituido;
 
@@ -106,106 +107,46 @@ function floydWarshall(grafo, delay = 300)
     let myDelay, ultimoFim;
 
     arestas = grafo;
-    vertices.forEach( (vertice) => vertice.resetar() );
+    vertices.forEach(vertice => vertice.resetar());
 
     const caminhos = criarCaminhos(grafo);
 
-    return new Promise(
-        (resolve, reject) =>
-        {
-            forComPromise(0, grafo.length,
-                (meio, resolveMeio) =>
-                {
-                    forComPromise(0, grafo.length,
-                        (inicio, resolveInicio) =>
-                        {
-                            vertices[meio].nomeDisplay = "meio";
-                            // vertices[meio].cor = "#404040";
-                            vertices[meio].estado = ESTADO_INTERMEDIARIO;
-        
-                            forComDelay(0, grafo.length,
-                                (fim) =>
-                                {
-                                    vertices[inicio].nomeDisplay = "inicio";
-                                    vertices[inicio].cor = "#404040";
-        
-                                    [caminhoSubstituido, caminhoNovo, myDelay,
-                                        ultimoFim] =
-                                        nucleoFloyd(
-                                            caminhoSubstituido, caminhoNovo,
-                                            caminhos, inicio, meio, fim, delay,
-                                            ultimoFim
-                                        );
+    for (let meio = 0; meio < grafo.length; meio++) {
+        for (let inicio = 0; inicio < grafo.length; inicio++) {
+            vertices[meio].nomeDisplay = "meio";
+            // vertices[meio].cor = "#404040";
+            vertices[meio].estado = ESTADO_INTERMEDIARIO;
 
-                                    return myDelay;
-                                }
-                            ).then(
-                                () =>
-                                {
-                                    vertices[inicio].resetar();
-                                    resolveInicio();
-                                }
-                            );
-                        }
-                    ).then(
-                        () =>
-                        {
-                            vertices[meio].resetar();
-                            vertices[meio].estado = ESTADO_FINAL;
-                            resolveMeio();
-                        }
-                    );
-                }
-            ).then(
-                () =>
-                {
-                    floydCaminhos = caminhos;
-                    resolve(caminhos);
-                }
-            );
-        }
-    );
-}
+            for (let fim = 0; fim < grafo.length; fim++) {
+                vertices[inicio].nomeDisplay = "inicio";
+                vertices[inicio].cor = "#404040";
 
-/**
- * Aplica o algoritmo de Floyd Warshall no grafo para descobrir os menores caminhos
- * entre vértices do grafo.
- * 
- * @param {Aresta[][]} grafo Matriz com as arestas do grafo.
- * 
- * @return {Promise<Caminho[][]>}
- */
-/* function floydWarshall(grafo)
-{
-    let atual, inicioAoMeio, meioAoFim;
-    const caminhos = criarCaminhos(grafo);
+                [
+                    caminhoSubstituido,
+                    caminhoNovo,
+                    myDelay,
+                    ultimoFim,
+                ] = nucleoFloyd(
+                    caminhoSubstituido,
+                    caminhoNovo,
+                    caminhos,
+                    inicio,
+                    meio,
+                    fim,
+                    delay,
+                    ultimoFim
+                );
 
-    vertices.forEach( (vertice) => vertice.resetar() );
-
-    return new Promise(
-        (resolve, reject) =>
-        {
-            for (let meio = 0; meio < grafo.length; meio++)
-            {
-                for (let inicio = 0; inicio < grafo.length; inicio++)
-                {
-                    for (let fim = 0; fim < grafo.length; fim++)
-                    {
-                        atual = caminhos[inicio][fim].peso;
-                        inicioAoMeio = caminhos[inicio][meio].peso;
-                        meioAoFim = caminhos[meio][fim].peso;
-        
-                        if (inicioAoMeio + meioAoFim < atual)
-                        {
-                            caminhos[inicio][fim] =
-                            caminhos[inicio][meio].concatenarCom(caminhos[meio][fim]);
-                        }
-                    }
-                }
+                await new Promise((resolve, reject) => {
+                    setTimeout(resolve, myDelay);
+                });
             }
-
-            floydCaminhos = caminhos;
-            resolve(caminhos);
+            vertices[inicio].resetar();
         }
-    );
-} */
+        vertices[meio].resetar();
+        vertices[meio].estado = ESTADO_FINAL;
+    }
+
+    floydCaminhos = caminhos;
+    return caminhos;
+}

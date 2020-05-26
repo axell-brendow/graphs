@@ -46,126 +46,39 @@ let imgStyle;
 /**
  * Clona um objeto com campos primitivos e/ou com objetos que tenham campos
  * primitivos.
- * 
+ *
  * @param {object} objeto Objeto a ser clonado.
  */
-function clonar(objeto)
-{
+function clonar(objeto) {
     return JSON.parse(JSON.stringify(objeto));
 }
 
 /**
  * Obtém uma função como parâmetro que deve retornar uma Promise e retorna uma nova
  * função que executa a recebida medindo o tempo de execução dela.
- * 
+ *
  * @param {(...args) => Promise<any>} target Função que você deseja medir o tempo toda
  * vez que executar.
  * @param {(value: any) => void} callback Função que deve ser chamada quando a função
  * recebida como parâmetro terminar. O valor da Promise é passado para a função de
  * callback.
  */
-function medirTempo(target, callback)
-{
+function medirTempo(target, callback) {
     let retValue = null;
 
     // Retorna uma função que pode receber uma quantidade variável de parâmetros
-    return (...args) =>
-        {
-            console.time(target.name);
+    return async (...args) => {
+        console.time(target.name);
 
-            target(...args)
-                .then((value) => retValue = value)
-                .catch( (value) => retValue = value )
-                .finally(
-                    () =>
-                    {
-                        console.timeEnd(target.name);
-                        callback(retValue);
-                    }
-                );
-        };
-}
-
-/**
- * Percorre um intervalo (inicio, fim) (não necessariamente de números, basta que
- * o inicio e o fim suportem o operador de soma +) onde cada iteração só começa
- * quando a anterior terminar de acordo com uma chamada de função.
- * 
- * @param {any} inicio Valor inicial das iterações.
- * @param {any} fim Valor de parada.
- * @param {acao: (valorAtual: any, resolve: (value?: any) => void) => void} acao
- * Função que será executada em cada iteração recebendo o valor atual (inicio,
- * inicio + incremento, ...) e a função resolve que deve ser chamada quando deseja-se
- * terminar a iteração.
- * @param {any} incremento Incremento a ser dado no valor inicial e nos subsequentes
- * para cada iteração.
- * 
- * @return {Promise} Promessa que só será cumprida quando todas as iterações
- * terminarem.
- */
-function forComPromise(inicio, fim, acao, incremento = 1)
-{
-    let valor = inicio;
-
-    return new Promise(
-        (resolve, reject) =>
-        {
-            function iterar()
-            {
-                if (valor != fim)
-                {
-                    new Promise(
-                        (loopResolve, loopReject) =>
-                        {
-                            acao(valor, loopResolve);
-                        }
-                    ).then(
-                        () =>
-                        {
-                            valor += incremento;
-                            iterar();
-                        }
-                    );
-                }
-        
-                else resolve();
-            }
-        
-            iterar();
+        try {
+            retValue = await target(...args);
+        } catch (value) {
+            retValue = value;
+        } finally {
+            console.timeEnd(target.name);
+            callback(retValue);
         }
-    );
-}
-
-/**
- * Percorre um intervalo (inicio, fim) (não necessariamente de números, basta que
- * o inicio e o fim suportem o operador de soma +) onde cada iteração tem um delay
- * entre ela e a próxima que é definido pelo retorno da função de ação.
- * 
- * @param {any} inicio Valor inicial das iterações.
- * @param {any} fim Valor de parada.
- * @param {(any) => number} acao Função que será executada em cada iteração 
- * recebendo o valor atual (inicio, inicio + incremento, ...) e deve retornar o
- * delay até a próxima iteração começar.
- * @param {any} incremento Incremento a ser dado no valor inicial e nos subsequentes
- * para cada iteração.
- * 
- * @return {Promise} Promessa que só será cumprida quando todas as iterações
- * terminarem.
- */
-function forComDelay(inicio, fim, acao, incremento = 1)
-{
-    let delay;
-
-    return forComPromise(
-        inicio, fim,
-        (valorAtual, resolve) =>
-        {
-            delay = acao(valorAtual);
-            // Passa para a próxima iteração quando resolve é chamada
-            setTimeout(resolve, delay);
-        },
-        incremento
-    );
+    };
 }
 
 /* MAPA MUNDI
@@ -284,4 +197,3 @@ function forComDelay(inicio, fim, acao, incremento = 1)
 /          `so:     .y++momoo`  :ysyyhys.  .hyodsmo:  :mm+momos`  `oyodshss.syyyy-                    .-:::/:::///+/:--.``                                                                                                                                                                      `..-::.`                                                                                                       /
 +........---os:.....-o:y+yos+..-sooooooo-..+o+o/o/o-...//o/o/o/...-+:+/+///-://::-........................-:///:--.............................................................................................................................................................................................................................................................................................+
 */
-
