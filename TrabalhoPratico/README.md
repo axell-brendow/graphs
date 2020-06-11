@@ -6,7 +6,7 @@ Este projeto traz um [site/sistema](https://axell-brendow.github.io/graphs/) que
 
 ### Como utilizar ?
 
-Para um teste rápido, basta abrir o arquivo index.html e ir no menu de opções e clicar no algoritmo desejado.
+Para um teste rápido, basta abrir o [site](https://axell-brendow.github.io/graphs/) ou o arquivo index.html (caso tenha baixado o código) e ir no menu de opções e clicar no algoritmo desejado.
 Para testar com grafos personalizados, é necessário abrir o arquivo index.html, carregar a localização dos aeroportos de um arquivo e os preços das passagens de outro. Já existem dois arquivos de exemplo nesta pasta para testar o sistema: 1-localizacao_aeroportos.txt e 2-pyprecos_passagens.txt.
 
 ### Entendendo o código
