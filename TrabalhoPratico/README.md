@@ -10,17 +10,17 @@ Basta abrir o arquivo index.html, carregar a localização dos aeroportos de um 
 
 ### Entendendo o código
 
-Recomendo começar pelos arquivos **index.html**, **global.js** **index.js**, **motorGrafico.js** e **UI.js**. Todos os outros códigos são chamados por eventos que estão em alguns desses arquivos.
+Recomendo começar pelos arquivos **[index.html](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/index.html)**, **[global.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/globals.js)** **[index.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/index.js)**, **[motorGrafico.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/motorGrafico.js)** e **[UI.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/UI.js)**. Todos os outros códigos são chamados por eventos que estão em alguns desses arquivos.
 
-- **index.html** - Onde você poderá encontrar as tags &lt;script&gt; com os links para todos os arquivos .js utilizados no projeto.
+- **[index.html](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/index.html)** - Onde você poderá encontrar as tags &lt;script&gt; com os links para todos os arquivos .js utilizados no projeto.
 
-- **global.js** - Declara variáveis globais e algumas funções importantes.
+- **[global.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/globals.js)** - Declara variáveis globais e algumas funções importantes.
 
-- **index.js** - carrega variáveis globais com elementos HTML e define alguns eventos sobre arquivos. Por exemplo, quando você carregar os arquivos com os aeroportos e os preços, os eventos desse arquivo serão acionados.
+- **[index.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/index.js)** - carrega variáveis globais com elementos HTML e define alguns eventos sobre arquivos. Por exemplo, quando você carregar os arquivos com os aeroportos e os preços, os eventos desse arquivo serão acionados.
 
-- **motorGrafico.js** - cuida da renderização dos elementos.
+- **[motorGrafico.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/motorGrafico.js)** - cuida da renderização dos elementos.
 
-- **UI.js** - cuida de todos os eventos relacionados à interface e interação com o usuário. Por exemplo, quando você clicar nos menus, os eventos desse arquivo serão acionados.
+- **[UI.js](https://github.com/axell-brendow/graphs/blob/master/TrabalhoPratico/resources/js/UI.js)** - cuida de todos os eventos relacionados à interface e interação com o usuário. Por exemplo, quando você clicar nos menus, os eventos desse arquivo serão acionados.
 
 ### Descrição dos problemas
 
